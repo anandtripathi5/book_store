@@ -79,8 +79,8 @@ class TestUsers(unittest.TestCase):
                 password="test",
 
             )
-            id = create_user(**data)
+            response_id = create_user(**data)
             user_id = self.session.query(User).filter(
-                User.username=="test"
+                User.username == "test"
             ).first()
-            self.assertEqual(id, int(user_id.id))
+            self.assertEqual(response_id, int(user_id.id))

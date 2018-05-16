@@ -6,10 +6,13 @@ from datetime import timedelta
 FLASK_APP_NAME = os.environ.get("FLASK_APP_NAME")
 DEBUG = os.environ.get("FLASK_DEBUG")
 DATABASE_URL = os.environ.get("DATABASE_URL")
+
+#jwt
 SECRET_KEY = "my_secret_key"
 JWT_EXPIRATION_DELTA = timedelta(days=120)
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=2)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=999999)
+JWT_HEADER_TYPE = "JWT"
 
 DEFAULT_LOGGER_NAME = os.environ.get("DEFAULT_LOGGER_NAME")
 LOGGING_CONFIG = dict(
