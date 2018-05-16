@@ -1,26 +1,28 @@
-import logging.config
 from flask import Flask
-import resources
-from config import FLASK_APP_NAME
-from constants.common_constants import FLASK_CONFIG
-from helper import config_logger
+from flask_jwt_extended import JWTManager
+
 from models import get_session
+from constants.common_constants import FLASK_CONFIG
+from config import FLASK_APP_NAME
+from helper import config_logger
 
 
 def create_app():
-    # flask app configuration
+    # flask bookapp configuration
     app = Flask(FLASK_APP_NAME)
     app.config.from_object(FLASK_CONFIG)
 
     # database session
     database_url = app.config.get("DATABASE_URL")
     if not database_url:
-        raise ValueError("DATABASE-URL-NOT-SET")
+        raise Exception("DATABASE-URL-NOT-SET")
     session = get_session(database_url=database_url)
 
     # logger configuration
     config_logger(app)
-    resources.restful_api(app)
+    from resources.restful import restful_api
+    restful_api(app)
+    jwt_extended_mobile = JWTManager(app)
 
     # teardown database session
     def close_session(response_or_exc):
