@@ -1,15 +1,15 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager
-
 from models import get_session
 from constants.common_constants import FLASK_CONFIG
 from config import FLASK_APP_NAME
 from helper import config_logger
+from utils.utilities import flask_admin_auth
 
 
 def create_app():
-    # flask bookapp configuration
-    app = Flask(FLASK_APP_NAME)
+    # flask book_app configuration
+    app = Flask(FLASK_APP_NAME, template_folder="templates")
     app.config.from_object(FLASK_CONFIG)
 
     # database session
@@ -17,6 +17,9 @@ def create_app():
     if not database_url:
         raise Exception("DATABASE-URL-NOT-SET")
     session = get_session(database_url=database_url)
+
+    # flask basic auth for admin
+    auth = flask_admin_auth(app)
 
     # logger configuration
     config_logger(app)
