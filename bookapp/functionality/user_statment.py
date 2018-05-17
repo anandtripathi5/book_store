@@ -2,14 +2,17 @@ import datetime
 
 from constants.common_constants import DEFAULT_FALSE_FLAG, DEFAULT_TRUE_FLAG
 from models import session
-from models.book import Book, UserBookMapping
+from models.book import Book, UserBookMapping, BookType
 from utils.log_handler import function_logger
 
 
 def get_number_of_books_charge(user_id=None):
     now = datetime.datetime.now()
-    book_details = session.query(UserBookMapping.created_on, Book.charge).join(
+    book_details = session.query(UserBookMapping.created_on, BookType.charge).join(
         Book, Book.id == UserBookMapping.book_id
+    ).join(
+        BookType,
+        BookType.id == Book.book_type_id
     ).filter(
         UserBookMapping.is_deleted == DEFAULT_FALSE_FLAG,
         Book.is_deleted == DEFAULT_FALSE_FLAG,

@@ -10,7 +10,7 @@ from functionality.book import get_book_details, \
 from functionality.login import is_password_match, validate_user
 from functionality.users import get_user_name_by_user_name
 from models import session
-from models.book import Book, UserBookMapping
+from models.book import Book, UserBookMapping, BookType
 from models.users import User
 
 
@@ -28,8 +28,16 @@ class TestBook(unittest.TestCase):
         self.session.add(user_obj)
         self.session.flush()
         self.user_id = int(user_obj.id)
+        book_type = BookType(
+            book_type="normal",
+            charge="1.5"
+        )
+        self.session.add(book_type)
+        self.session.flush()
+        self.book_type_id = int(book_type.id)
         book_obj = Book(
-            book_name="python"
+            book_name="python",
+            book_type_id=self.book_type_id
         )
         self.session.add(book_obj)
         self.session.flush()

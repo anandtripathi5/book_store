@@ -1,9 +1,20 @@
 # coding: utf-8
 from sqlalchemy import Column, DateTime, Integer, String, text, Index, \
-    ForeignKey
+    ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 
 from base import Base
+
+
+class BookType(Base):
+    __tablename__ = 'book_type'
+
+    id = Column(Integer, primary_key=True)
+    book_type = Column(String(126), nullable=False)
+    charge = Column(Numeric(20, 6), nullable=False)
+    created_on = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+    modified_on = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    is_deleted = Column(Integer, server_default=text("'0'"))
 
 
 class Book(Base):
@@ -16,7 +27,9 @@ class Book(Base):
                          server_default=text(
                              "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
     is_deleted = Column(Integer, server_default=text("'0'"))
-    charge = Column(Integer, nullable=False, server_default=text("'1'"))
+    book_type_id = Column(ForeignKey(u'book_type.id'), nullable=False, index=True)
+
+    book_type = relationship(u'BookType')
 
 
 class UserBookMapping(Base):

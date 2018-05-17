@@ -2,7 +2,7 @@ from flask_admin import Admin
 from flask_restful import Api
 from models import session
 from models.admin_model import ModelView
-from models.book import Book, UserBookMapping
+from models.book import Book, UserBookMapping, BookType
 from models.users import User
 from resources.book import BookStore
 from resources.login import Login, Refresh
@@ -30,4 +30,5 @@ def restful_api(app):
     admin.add_view(ModelView(User, session))
     admin.add_view(ModelView(Book, session))
     admin.add_view(ModelView(UserBookMapping, session))
+    admin.add_view(ModelView(BookType, session))
 
