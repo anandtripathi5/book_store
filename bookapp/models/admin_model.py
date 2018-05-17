@@ -16,6 +16,8 @@ class AuthException(HTTPException):
 
 
 class ModelView(sqla.ModelView):
+    column_display_pk = True
+    column_hide_backrefs = False
     def is_accessible(self):
         if not basic_auth.authenticate():
             raise AuthException('Not authenticated.')

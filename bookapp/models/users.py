@@ -17,3 +17,6 @@ class User(Base):
                              "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
                          ))
     is_deleted = Column(Integer, server_default=text("'0'"))
+
+    def __repr__(self):
+        return self.username

@@ -19,6 +19,9 @@ class BookType(Base):
     fixed_charges = Column(Numeric(20, 6), nullable=False,
                            server_default=text("'0.000000'"))
 
+    def __repr__(self):
+        return self.book_type
+
 
 class Book(Base):
     __tablename__ = 'books'
@@ -33,6 +36,9 @@ class Book(Base):
     book_type_id = Column(ForeignKey(u'book_type.id'), nullable=False, index=True)
 
     book_type = relationship(u'BookType')
+
+    def __repr__(self):
+        return self.book_name
 
 
 class UserBookMapping(Base):
