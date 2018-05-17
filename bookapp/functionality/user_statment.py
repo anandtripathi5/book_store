@@ -23,10 +23,15 @@ def get_number_of_books_charge(user_id=None):
         Book.is_deleted == DEFAULT_FALSE_FLAG,
         UserBookMapping.user_id == user_id
     ).all()
-    # (charge(total_days - initial_days) or None) + initial charge
+    
     # total charge of rest days + total charge of initial days
+    # if total days is greater than fixed days
+    # (charge(total_days - fixed days)) + fixed charge
+    # else
+    # fixed charge
     book_details = [
-        ((((now-time).days+1)-fixed_days)*charge or None)+fixed_charges for
+        ((((now-time).days+1)-fixed_days)*charge if
+         (((now-time).days+1)-fixed_days)*charge > 0 else 0)+fixed_charges for
         time, charge, fixed_days, fixed_charges in book_details]
     return dict(
         number_of_books=len(book_details),
