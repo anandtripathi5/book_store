@@ -15,6 +15,9 @@ class BookType(Base):
     created_on = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     modified_on = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
     is_deleted = Column(Integer, server_default=text("'0'"))
+    fixed_days = Column(Integer, nullable=False, server_default=text("'0'"))
+    fixed_charges = Column(Numeric(20, 6), nullable=False,
+                           server_default=text("'0.000000'"))
 
 
 class Book(Base):

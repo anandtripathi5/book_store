@@ -8,7 +8,12 @@ from utils.log_handler import function_logger
 
 def get_number_of_books_charge(user_id=None):
     now = datetime.datetime.now()
-    book_details = session.query(UserBookMapping.created_on, BookType.charge).join(
+    book_details = session.query(
+        UserBookMapping.created_on,
+        BookType.charge,
+        BookType.fixed_days,
+        BookType.fixed_charges
+    ).join(
         Book, Book.id == UserBookMapping.book_id
     ).join(
         BookType,
@@ -18,7 +23,11 @@ def get_number_of_books_charge(user_id=None):
         Book.is_deleted == DEFAULT_FALSE_FLAG,
         UserBookMapping.user_id == user_id
     ).all()
-    book_details = [((now-time).days+1)*charge for time, charge in book_details]
+    # (charge(total_days - initial_days) or None) + initial charge
+    # total charge of rest days + total charge of initial days
+    book_details = [
+        ((((now-time).days+1)-fixed_days)*charge or None)+fixed_charges for
+        time, charge, fixed_days, fixed_charges in book_details]
     return dict(
         number_of_books=len(book_details),
         book_charges=sum(book_details)
