@@ -16,6 +16,7 @@ class Book(Base):
                          server_default=text(
                              "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
     is_deleted = Column(Integer, server_default=text("'0'"))
+    charge = Column(Integer, nullable=False, server_default=text("'1'"))
 
 
 class UserBookMapping(Base):

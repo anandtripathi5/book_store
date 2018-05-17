@@ -3,7 +3,6 @@ from marshmallow import Schema, fields as field
 from webargs.flaskparser import use_kwargs
 
 from functionality.book import get_book_details, rent_book, delete_book
-from functionality.login import validate_user
 from models import session
 from resources.base_resource import BaseResource
 from utils.utilities import get_current_jwt_identity
